@@ -1,0 +1,54 @@
+#include <SoftwareSerial.h>
+SoftwareSerial sms(12,11);
+void setup()
+{
+  sms.begin(9600);               // the GPRS baud rate   
+  Serial.begin(9600);    // the GPRS baud rate 
+  delay(1000);
+  
+   
+         sms.print("AT");  //Start Configuring GSM Module
+              delay(1000);         //One second delay
+              sms.println();
+              sms.println("AT+CMGF=1");
+              delay(1000);
+              sms.println("AT+CNMI=2,2,0,0,0");
+              delay(1000);
+              sms.println("AT+CPIN?");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+SAPBR=3,1,\"contype\",\"GPRS\"");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+SAPBR=3,1,\"APN\",\"internet\"");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+SAPBR=3,1,\"USER\",\"\"");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+SAPBR=3,1,\"PWD\",\"\"");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+SAPBR=1,1");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+HTTPINIT");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+HTTPPARA=\"CID\",1");
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+HTTPPARA=\"URL\",\"http://api.thingspeak.com/update?api_key=XXXXXXXXXXX&field1=107&field2=60\""); // XXXXXXX CHANGE TO YOUR API
+              delay(4000);
+              Serial.write(sms.read());
+              delay(1000);
+              sms.println("AT+HTTPACTION=0");
+              Serial.write(sms.read()); 
+}
+ 
+void loop()
+{
+            
+   
+    
+}  
